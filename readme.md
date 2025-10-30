@@ -30,7 +30,24 @@ Before using this system, you **must** install the required components and confi
 
 ### **Required Software:**
 
-1. **UV** (Fast Python package installer and environment manager)
+1. **Python 3.11 or higher**
+   - Check your installed Python version:
+     ```bash
+     python3 --version
+     ```
+   - If you don't have Python installed or need a specific version:
+     ```bash
+     # Install via Homebrew (recommended)
+     brew install python@3.11
+     # Or for the latest version
+     brew install python@3.13
+
+     # Verify installation
+     python3 --version
+     ```
+   - **Note:** This system requires Python 3.11 or higher. If UV cannot download the requested Python version due to network issues, use any installed Python 3.11+ version by running `uv venv --python 3.13` (or whichever version you have installed)
+
+2. **UV** (Fast Python package installer and environment manager)
    - Install via curl:
      ```bash
      curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -72,9 +89,19 @@ cd AILab-Mac
 chmod +x run_ai_env.sh setup_python_env.sh
 ```
 
-### **Step 3: Install UV**
+### **Step 3: Check Python and Install UV**
 
-Install UV (the fast Python package installer):
+First, verify you have Python 3.11 or higher installed:
+
+```bash
+# Check Python version
+python3 --version
+
+# If you don't have Python or need a newer version:
+brew install python@3.13  # or python@3.11
+```
+
+Then install UV (the fast Python package installer):
 
 ```bash
 # Via curl (recommended)
@@ -93,11 +120,20 @@ The virtual environment will be created automatically when you first run the sys
 
 ```bash
 cd ~/Developer/AILab-Mac
-uv venv --python 3.11
+
+# Check which Python versions you have installed
+python3 --version
+ls /usr/local/bin/python* 2>/dev/null | grep python3
+
+# Create virtual environment with Python 3.11 or higher
+# Use whichever version you have installed (3.11, 3.12, 3.13, etc.)
+uv venv --python 3.13  # or --python 3.11, --python 3.12, etc.
 
 # Install dependencies
 uv pip install -e .
 ```
+
+**Note:** If you encounter download timeouts when UV tries to fetch Python, use a Python version already installed on your system (see Step 3 for how to check installed versions).
 
 ### **Step 5: Install Ollama**
 
@@ -161,8 +197,12 @@ uv --version
 ```bash
 cd /Volumes/MyDrive/AILab-Mac
 
-# Create UV virtual environment
-uv venv --python 3.11
+# Check which Python versions are available
+python3 --version
+
+# Create UV virtual environment with Python 3.11 or higher
+# Use whichever version you have installed (3.11, 3.12, 3.13, etc.)
+uv venv --python 3.13  # or --python 3.11, --python 3.12, etc.
 
 # Install dependencies
 uv pip install -e .
@@ -367,12 +407,34 @@ brew install uv
 
 **"Virtual environment not found":**
 ```bash
-# Create the virtual environment
+# First check which Python versions you have installed
+python3 --version
+ls /usr/local/bin/python* 2>/dev/null | grep python3
+
+# Create the virtual environment with an available Python version
 cd ~/Developer/AILab-Mac
-uv venv --python 3.11
+uv venv --python 3.13  # Use the version you have installed
 
 # Install dependencies
 uv pip install -e .
+```
+
+**"UV timeout when downloading Python" or "error sending request":**
+```bash
+# This happens when UV tries to download a Python version from GitHub
+# Solution: Use a Python version already installed on your Mac
+
+# Check installed Python versions
+python3 --version
+which python3.11 python3.12 python3.13
+
+# Use an installed version instead
+cd ~/Developer/AILab-Mac
+uv venv --python 3.13  # or whichever version is installed
+
+# If you need Python 3.11 specifically, install it first:
+brew install python@3.11
+uv venv --python 3.11
 ```
 
 **"Ollama not found" errors:**
@@ -516,9 +578,10 @@ This makes it ideal for:
 
 After cloning from GitHub, users must:
 
+- [ ] Install Python 3.11 or higher: `brew install python@3.13` (or check if already installed with `python3 --version`)
 - [ ] Make shell scripts executable: `chmod +x *.sh`
 - [ ] Install UV (via curl or Homebrew)
-- [ ] Create UV virtual environment: `uv venv --python 3.11`
+- [ ] Create UV virtual environment: `uv venv --python 3.13` (or use any installed Python 3.11+)
 - [ ] Install required Python packages: `uv pip install -e .`
 - [ ] Install Ollama from https://ollama.ai
 - [ ] (Optional) Install VS Code and the `code` command
