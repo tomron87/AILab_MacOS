@@ -1,0 +1,292 @@
+================================================================
+                  CodeLlama 7B Model Information
+                      Version: 3.0.28
+                   Date: 2025-08-13 Time: 03:00
+================================================================
+
+MODEL OVERVIEW:
+==============
+Name: CodeLlama 7B
+Size: 3.8 GB
+Developer: Meta (Facebook)
+Type: Code-Specialized Language Model
+Recommended: ⭐ YES (Best for programming)
+
+DESCRIPTION:
+============
+CodeLlama 7B is Meta's specialized version of Llama2, fine-tuned specifically
+for code generation, understanding, and programming tasks. It excels at
+writing, debugging, and explaining code across multiple programming languages.
+
+KEY FEATURES:
+=============
+✅ Specialized for code generation
+✅ Supports 20+ programming languages
+✅ Excellent code completion
+✅ Strong debugging capabilities
+✅ Good code explanation and documentation
+✅ Based on proven Llama2 architecture
+
+STRENGTHS:
+==========
+• Outstanding code generation quality
+• Excellent understanding of programming concepts
+• Strong debugging and error detection
+• Good code documentation generation
+• Supports multiple programming paradigms
+• Can explain complex algorithms
+• Good at code refactoring suggestions
+
+LIMITATIONS:
+============
+• Less capable for general conversation
+• Weaker at non-programming tasks
+• May over-focus on code even for general questions
+• Limited creative writing abilities
+• Smaller general knowledge base
+
+BEST USE CASES:
+===============
+🎯 Code generation and completion
+🎯 Debugging and error fixing
+🎯 Code documentation and comments
+🎯 Algorithm implementation
+🎯 Code review and optimization
+🎯 Programming education
+🎯 API integration examples
+
+SUPPORTED LANGUAGES:
+===================
+Excellent Support:
+• Python, JavaScript, TypeScript
+• Java, C++, C#
+• Go, Rust, Swift
+• HTML, CSS, SQL
+
+Good Support:
+• PHP, Ruby, Kotlin
+• Scala, R, MATLAB
+• Shell/Bash scripting
+• JSON, XML, YAML
+
+PYTHON USAGE EXAMPLES:
+======================
+
+Basic Code Generation:
+---------------------
+import requests
+
+def query_codellama(prompt, model="codellama:7b"):
+    url = "http://127.0.0.1:11434/api/generate"
+    data = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False
+    }
+    response = requests.post(url, json=data, timeout=120)
+    return response.json()["response"]
+
+# Example usage
+code_prompt = "Write a Python function to calculate fibonacci numbers"
+response = query_codellama(code_prompt)
+print(response)
+
+Code Completion Example:
+-----------------------
+completion_prompt = """
+Complete this Python function:
+
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    # Complete the implementation
+"""
+
+completion = query_codellama(completion_prompt)
+print("Completed Code:")
+print(completion)
+
+Debugging Example:
+-----------------
+debug_prompt = """
+Find and fix the bug in this Python code:
+
+def calculate_average(numbers):
+    total = 0
+    for num in numbers:
+        total += num
+    return total / len(numbers)
+
+# This function crashes with empty list
+"""
+
+debug_response = query_codellama(debug_prompt)
+print("Debug Analysis:")
+print(debug_response)
+
+Code Explanation:
+----------------
+explain_prompt = """
+Explain this algorithm step by step:
+
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + middle + quicksort(right)
+"""
+
+explanation = query_codellama(explain_prompt)
+print("Algorithm Explanation:")
+print(explanation)
+
+Advanced Configuration:
+----------------------
+def query_codellama_advanced(prompt, temperature=0.2, max_tokens=1500):
+    url = "http://127.0.0.1:11434/api/generate"
+    data = {
+        "model": "codellama:7b",
+        "prompt": prompt,
+        "stream": False,
+        "options": {
+            "temperature": temperature,  # Lower for more deterministic code
+            "num_predict": max_tokens,
+            "top_p": 0.95,
+            "top_k": 50,
+            "repeat_penalty": 1.05
+        }
+    }
+    response = requests.post(url, json=data, timeout=180)
+    return response.json()["response"]
+
+Multi-Language Example:
+----------------------
+web_app_prompt = """
+Create a simple web application with:
+1. HTML structure for a todo list
+2. CSS styling for modern look
+3. JavaScript for add/remove functionality
+4. Python Flask backend API
+
+Provide complete code for all components.
+"""
+
+web_app_code = query_codellama_advanced(web_app_prompt, max_tokens=2000)
+
+PERFORMANCE OPTIMIZATION:
+========================
+• Use low temperature (0.1-0.3) for precise code
+• Use higher temperature (0.4-0.6) for creative solutions
+• Increase max_tokens for complex implementations
+• Use specific language mentions in prompts
+• Request comments and documentation
+
+SYSTEM REQUIREMENTS:
+===================
+Minimum RAM: 8 GB
+Recommended RAM: 12 GB
+Storage: 5 GB free space
+CPU: Modern multi-core processor
+GPU: Optional but recommended for faster inference
+
+LOADING INSTRUCTIONS:
+====================
+1. Download: Use AI Environment option 7 → Download Model
+2. Select: Choose "CodeLlama 7B" from popular models
+3. Wait: Download takes 15-35 minutes (depending on internet)
+4. Load: Use option 7 → Load Model → Select "codellama:7b"
+5. Use: Update Python code to use "codellama:7b"
+
+OFFICIAL LINKS:
+===============
+🌐 Official Download: https://ollama.ai/library/codellama
+📚 Hugging Face: https://huggingface.co/codellama/CodeLlama-7b-hf
+🔬 Research Paper: https://arxiv.org/abs/2308.12950
+💻 Meta AI: https://ai.meta.com/blog/code-llama-large-language-model-coding/
+📖 Model Card: https://huggingface.co/codellama/CodeLlama-7b-hf/blob/main/README.md
+🛠️ Ollama Command: ollama pull codellama:7b
+📋 License: Custom (Commercial use allowed)
+
+PROMPT ENGINEERING FOR CODE:
+============================
+Best Practices:
+• Specify the programming language clearly
+• Provide context about the intended use
+• Request comments and documentation
+• Ask for error handling when needed
+• Specify coding style preferences
+
+Example Structured Prompt:
+-------------------------
+structured_prompt = """
+Language: Python
+Task: Create a class for managing a library system
+Requirements:
+- Add/remove books
+- Search by title/author
+- Track borrowed books
+- Generate reports
+
+Please include:
+- Proper error handling
+- Docstrings
+- Type hints
+- Example usage
+"""
+
+TROUBLESHOOTING:
+===============
+Q: Generated code has syntax errors?
+A: Use lower temperature (0.1-0.2) and be more specific
+
+Q: Code doesn't follow best practices?
+A: Request specific coding standards in prompt
+
+Q: Missing error handling?
+A: Explicitly ask for error handling and edge cases
+
+Q: Code is too complex?
+A: Ask for simpler implementation or step-by-step approach
+
+Q: Wrong programming language?
+A: Clearly specify language at the beginning of prompt
+
+COMPARISON WITH OTHER MODELS:
+============================
+vs Llama2 7B: Much better for code, worse for general tasks
+vs Mistral 7B: Better for code, Mistral better for general use
+vs Phi 2.7B: Much more capable for programming tasks
+
+RECOMMENDED FOR:
+===============
+✅ Software development projects
+✅ Code generation and completion
+✅ Programming education and tutorials
+✅ Debugging and code review
+✅ Algorithm implementation
+✅ API integration examples
+
+NOT RECOMMENDED FOR:
+===================
+❌ General conversation and chat
+❌ Creative writing tasks
+❌ Non-technical content generation
+❌ Business or marketing content
+❌ General knowledge questions
+
+CODING BEST PRACTICES WITH CODELLAMA:
+====================================
+1. Always specify the programming language
+2. Provide clear requirements and constraints
+3. Ask for comments and documentation
+4. Request error handling for production code
+5. Specify coding style (PEP8, Google Style, etc.)
+6. Ask for unit tests when appropriate
+7. Request performance considerations for large-scale code
+
+================================================================
+Last Updated: 2025-08-13 03:00 | AI Environment v3.0.14
+================================================================
+

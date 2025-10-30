@@ -1,0 +1,383 @@
+{
+  "version_history": [
+    {
+      "version": "3.0.0",
+      "date": "2025-08-12",
+      "changes": [
+        "Initial release of AI Environment Python System",
+        "Complete portable AI development environment",
+        "Integrated Conda, Ollama, and Jupyter Lab",
+        "Automated setup and activation scripts"
+      ],
+      "files_changed": [
+        "All files"
+      ]
+    },
+    {
+      "version": "3.0.1",
+      "date": "2025-08-12",
+      "changes": [
+        "Fixed circular checksum issue in CHECKSUMS.sha256",
+        "Improved checksum verifier to focus on AI Environment files only",
+        "Updated version tracking and documentation"
+      ],
+      "files_changed": [
+        "verify_checksums.py",
+        "PACKAGE_INFO.txt",
+        "version_config.json"
+      ]
+    },
+    {
+      "version": "3.0.2",
+      "date": "2025-08-12",
+      "changes": [
+        "Added proper verbose mode support",
+        "Fixed Windows path compatibility"
+      ],
+      "files_changed": [
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "activate_ai_env.py"
+      ]
+    },
+    {
+      "version": "3.0.11",
+      "date": "2025-08-13",
+      "changes": [
+        "Fixed Jupyter Lab server startup and shutdown issues",
+        "Improved background process management",
+        "Enhanced error handling and user feedback"
+      ],
+      "files_changed": [
+        "src/ai_jupyter_manager.py",
+        "src/ai_action_handlers.py"
+      ]
+    },
+    {
+      "version": "3.0.12",
+      "date": "2025-08-13",
+      "changes": [
+        "Fixed terminal hanging issue after Jupyter Lab shutdown",
+        "Added proper stdin handling in subprocess calls",
+        "Improved input buffer management"
+      ],
+      "files_changed": [
+        "src/ai_jupyter_manager.py",
+        "src/ai_action_handlers.py"
+      ]
+    },
+    {
+      "version": "3.0.13",
+      "date": "2025-08-13",
+      "changes": [
+        "Fixed Jupyter Lab server startup detection with retry mechanism",
+        "Extended server startup timeout from 3 to 15 seconds",
+        "Added progress indicators for server startup"
+      ],
+      "files_changed": [
+        "src/ai_jupyter_manager.py"
+      ]
+    },
+    {
+      "version": "3.0.14",
+      "date": "2025-08-13",
+      "changes": [
+        "Added comprehensive AI model management system",
+        "Created model help system with 5 detailed help files",
+        "Enhanced Full Activation with model selection",
+        "Added model download, load, status, and delete functions",
+        "Integrated model management with existing menu system"
+      ],
+      "files_changed": [
+        "src/ai_model_manager.py",
+        "src/ai_model_downloader.py",
+        "src/ai_model_loader.py",
+        "src/ai_action_handlers.py",
+        "help/phi_2_7b.txt",
+        "help/llama2_7b.txt",
+        "help/mistral_7b.txt",
+        "help/codellama_7b.txt",
+        "help/gpt_oss_20b.txt",
+        "version_config.json",
+        "PACKAGE_INFO.txt",
+        "README.md"
+      ]
+    },
+    {
+      "version": "3.0.15",
+      "date": "2025-08-13",
+      "changes": [
+        "Fixed folder name from models/ to help/ for better organization",
+        "Fixed Unicode encoding issues in model loading (UnicodeDecodeError)",
+        "Extended timeout for large models from 2 to 5 minutes",
+        "Added proper encoding='utf-8' and errors='replace' to all subprocess calls",
+        "Improved error messages for large model loading failures",
+        "Updated all references from models_help_path to help_path"
+      ],
+      "files_changed": [
+        "src/ai_action_handlers.py",
+        "src/ai_model_loader.py",
+        "help/ (renamed from models/)",
+        "version_config.json",
+        "PACKAGE_INFO.txt",
+        "README.md"
+      ]
+    },
+    {
+      "version": "3.0.16",
+      "date": "2025-08-13",
+      "time": "05:15",
+      "description": "Comprehensive testing and VS Code integration complete",
+      "changes": [
+        "All new modules tested and verified in sandbox environment",
+        "ModelLoader functionality confirmed with help system",
+        "ComponentTester enhanced with 9 comprehensive tests",
+        "VS Code workspace setup tested and working",
+        "Main.py auto-creation tested and functional",
+        "All imports verified and working correctly",
+        "Unicode and timeout fixes confirmed working",
+        "Help system with 5 model files tested"
+      ],
+      "files_changed": [
+        "src/ai_action_handlers.py",
+        "src/ai_component_tester.py",
+        "src/ai_process_manager.py",
+        "src/ai_app_launcher.py",
+        "src/ai_model_loader.py",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "version_config.json"
+      ]
+    },
+    {
+      "version": "3.0.17",
+      "date": "2025-08-13",
+      "time": "05:30",
+      "description": "Fixed version configuration conflicts and comprehensive testing",
+      "changes": [
+        "Fixed duplicate python_files entries in version_config.json",
+        "Cleaned up JSON structure for better version checking",
+        "Updated all modified files to consistent version 3.0.17",
+        "Comprehensive testing of all new functionality in sandbox",
+        "Verified all imports, model management, and VS Code integration",
+        "Ensured all version checks pass correctly"
+      ],
+      "files_changed": [
+        "src/ai_action_handlers.py",
+        "src/ai_component_tester.py",
+        "src/ai_process_manager.py",
+        "src/ai_app_launcher.py",
+        "src/ai_model_loader.py",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "version_config.json",
+        "PACKAGE_INFO.txt",
+        "README.md"
+      ]
+    },
+    {
+      "version": "3.0.18",
+      "date": "2025-08-13",
+      "time": "06:00",
+      "description": "Complete background process tracking and enhanced exit options",
+      "changes": [
+        "Verified comprehensive background process tracking in all components",
+        "Confirmed QUIT and EXIT_AND_CLOSE options working in main menu",
+        "Updated all relevant files to version 3.0.18",
+        "Enhanced Ollama manager with proper background tracking",
+        "Improved menu system with better exit option descriptions",
+        "Updated documentation and package information"
+      ],
+      "files_changed": [
+        "src/ai_ollama_manager.py",
+        "src/ai_menu_system.py",
+        "src/activate_ai_env.py",
+        "version_config.json",
+        "PACKAGE_INFO.txt",
+        "README.md"
+      ]
+    },
+    {
+      "version": "3.0.19",
+      "date": "2025-08-13",
+      "time": "06:30",
+      "description": "Fixed ZIP structure and converted all documentation to English",
+      "changes": [
+        "Fixed ZIP structure to extract directly to D:\\AI_Environment",
+        "Converted all Hebrew documentation to English",
+        "Updated README.md with complete English documentation",
+        "Updated PACKAGE_INFO.txt with English descriptions",
+        "Verified correct directory structure (src/, help/, etc.)",
+        "Maintained all background process tracking functionality",
+        "Preserved all enhanced exit options (QUIT vs EXIT_AND_CLOSE)"
+      ],
+      "files_changed": [
+        "README.md",
+        "PACKAGE_INFO.txt",
+        "version_config.json",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat"
+      ]
+    },
+    {
+      "version": "3.0.20",
+      "date": "2025-08-13",
+      "time": "12:45",
+      "description": "Environment validation, fixed colors, terminal launcher, and numpy timeout fix",
+      "changes": [
+        "Added config/ folder with install_config.json",
+        "Created environment validation system with package comparison",
+        "Fixed dark color fonts for black terminal backgrounds",
+        "Added AI2025 terminal launcher with return functionality",
+        "Fixed numpy timeout from 5 to 10 seconds",
+        "Enhanced component testing with environment validation",
+        "Removed duplicate exit option (option 0)",
+        "Added terminal option (option 12) with unique prompt",
+        "Updated menu system with better color visibility",
+        "Added Version & Documentation menu with 5 options",
+        "Created document viewer with pagination for README/PACKAGE_INFO",
+        "Added About section with version and system information",
+        "Added Verify Checksums and Check Versions options"
+      ],
+      "files_changed": [
+        "src/ai_environment_validator.py",
+        "src/ai_terminal_launcher.py",
+        "src/ai_document_viewer.py",
+        "src/ai_menu_system.py",
+        "src/ai_component_tester.py",
+        "src/ai_action_handlers.py",
+        "src/activate_ai_env.py",
+        "config/install_config.json",
+        "version_config.json",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "README.md",
+        "PACKAGE_INFO.txt"
+      ]
+    },
+    {
+      "version": "3.0.21",
+      "date": "2025-08-13",
+      "time": "14:20",
+      "description": "Update system with ZIP file detection and enhanced Markdown document viewer",
+      "changes": [
+        "Added Update System in Version menu (option 6)",
+        "Created new_versions/ folder for update ZIP files",
+        "Implemented intelligent update manager with backup/restore",
+        "Enhanced document viewer with full Markdown formatting",
+        "Added proper Markdown parsing (headers, bold, italic, code, lists)",
+        "Improved color formatting for better readability",
+        "Added version detection from ZIP filenames",
+        "Implemented automatic backup before updates",
+        "Added rollback functionality on update failure",
+        "Enhanced About section with current time display"
+      ],
+      "files_changed": [
+        "src/ai_update_manager.py",
+        "src/ai_document_viewer.py",
+        "src/ai_menu_system.py",
+        "src/ai_action_handlers.py",
+        "new_versions/",
+        "version_config.json",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "README.md",
+        "PACKAGE_INFO.txt"
+      ]
+    },
+    {
+      "version": "3.0.22",
+      "date": "2025-08-13",
+      "time": "14:30",
+      "description": "Perfect Markdown viewer with 9/9 tests passing and enhanced package dependencies",
+      "changes": [
+        "Fixed Markdown numbered list formatting issue",
+        "Added missing 're' import to component tester",
+        "Enhanced test logic to handle colorama availability",
+        "Achieved perfect 9/9 Markdown formatting tests",
+        "Added colorama package to install_config.json",
+        "Added psutil package for enhanced process management",
+        "Updated environment validation to check new packages",
+        "Improved test reliability across different environments",
+        "Enhanced documentation viewer with robust formatting"
+      ],
+      "files_changed": [
+        "src/ai_document_viewer.py",
+        "src/ai_component_tester.py",
+        "config/install_config.json",
+        "version_config.json",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "README.md",
+        "PACKAGE_INFO.txt"
+      ]
+    },
+    {
+      "version": "3.0.23",
+      "date": "2025-08-13",
+      "time": "15:00",
+      "description": "Modular configuration architecture with split JSON files",
+      "changes": [
+        "Fixed JSON syntax error in version_config.json",
+        "Split large version_config.json into modular components",
+        "Created config/metadata.json for system information",
+        "Created config/expected_versions.json for file version tracking",
+        "Created config/version_history.json for complete changelog",
+        "Updated check_versions.py to support modular configuration",
+        "Maintained all files under 250 lines for better maintainability",
+        "Enhanced configuration architecture for easier management",
+        "Improved JSON structure and validation"
+      ],
+      "files_changed": [
+        "version_config.json",
+        "config/metadata.json",
+        "config/expected_versions.json",
+        "config/version_history.json",
+        "src/check_versions.py",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "README.md",
+        "PACKAGE_INFO.txt"
+      ]
+    },
+    {
+      "version": "3.0.24",
+      "date": "2025-08-13",
+      "time": "15:30",
+      "description": "Fixed terminal launcher and completed modular configuration",
+      "changes": [
+        "Fixed missing handle_terminal_launcher method in ActionHandlers",
+        "Added AI2025 terminal launcher functionality",
+        "Completed modular configuration system implementation",
+        "Updated all files to synchronized version 3.0.24",
+        "Enhanced error handling for terminal operations",
+        "Improved system reliability and user experience",
+        "Verified all components working correctly",
+        "Maintained all existing functionality while fixing critical issues"
+      ],
+      "files_changed": [
+        "src/ai_action_handlers.py",
+        "config/metadata.json",
+        "config/version_history.json",
+        "version_config.json",
+        "check_versions.bat",
+        "run_ai_env.bat",
+        "setup_python_env.bat",
+        "README.md",
+        "PACKAGE_INFO.txt"
+      ]
+    },
+    {
+      "version": "3.0.28",
+      "date": "2025-08-17",
+      "notes": "Automated bump"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+ENVIRONMENT MANAGEMENT
+================================================================
+
+CONDA ENVIRONMENT BASICS:
+----------------------------------------------------------------
+Check current environment:
+  echo %CONDA_DEFAULT_ENV%
+
+List all environments:
+  conda env list
+
+Activate AI2025 environment:
+  conda activate AI2025
+
+Deactivate current environment:
+  conda deactivate
+
+PACKAGE MANAGEMENT:
+----------------------------------------------------------------
+List installed packages:
+  conda list
+  pip list
+
+Install packages:
+  conda install package-name
+  pip install package-name
+
+Update packages:
+  conda update package-name
+  pip install --upgrade package-name
+
+Remove packages:
+  conda remove package-name
+  pip uninstall package-name
+
+ENVIRONMENT INFORMATION:
+----------------------------------------------------------------
+Current environment details:
+  Name: AI2025
+  Type: Conda environment
+  Python version: 3.0.28
+  Location: D:\AI_Environment\Miniconda\envs\AI2025
+
+Check Python location:
+  where python
+
+Check pip location:
+  where pip
+
+TROUBLESHOOTING:
+----------------------------------------------------------------
+
+Problem: Wrong Python version
+Solution:
+  1. Check environment: echo %CONDA_DEFAULT_ENV%
+  2. Should show: AI2025
+  3. If not: conda activate AI2025
+
+Problem: Package not found
+Solution:
+  1. Check if in correct environment: conda list
+  2. Install if missing: pip install package-name
+  3. Try alternative: conda install package-name
+
+Problem: Import errors
+Solution:
+  1. Verify package installed: pip show package-name
+  2. Check Python path: python -c "import sys; print^(sys.path^)"
+  3. Reinstall if needed: pip install --force-reinstall package-name
+
+VALIDATION:
+----------------------------------------------------------------
+Validate installation:
+  validate.bat
+
+Test core functionality:
+  python -c "import sys; print^('Python OK:', sys.executable^)"
+  python -c "import pandas, numpy, requests; print^('Core packages OK'^)"
+  python -c "import langchain, streamlit; print^('AI packages OK'^)"
+
+PORTABLE ENVIRONMENT NOTES:
+----------------------------------------------------------------
+- Environment is fully portable on USB drive
+- No registry modifications on host system
+- All packages stored in D:\AI_Environment
+- Works on any Windows 11 computer
+- No internet required after initial setup
+
+BEST PRACTICES:
+----------------------------------------------------------------
+- Always work in AI2025 environment for AI projects
+- Use pip for most package installations
+- Use conda for system-level packages
+- Keep environment clean - remove unused packages
+- Regular validation with validate.bat
+- Backup important projects separately

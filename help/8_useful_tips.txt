@@ -1,0 +1,108 @@
+USEFUL TIPS AND TROUBLESHOOTING
+================================================================
+
+GENERAL BEST PRACTICES:
+----------------------------------------------------------------
+- Always work in the AI2025 environment for AI projects
+- Use 'ollama list' to see what models you have
+- Models are stored in: D:\AI_Environment\Models
+- Your projects go in: D:\AI_Environment\Projects
+- VS Code automatically uses the correct Python interpreter
+- All AI libraries are pre-installed and ready to use
+- Run 'validate.bat' if you encounter any issues
+
+PERFORMANCE TIPS:
+----------------------------------------------------------------
+- Use USB 3.0+ ports for better speed
+- Close unnecessary applications to free up RAM
+- Use SSD-based USB drives for optimal performance
+- Keep models on the USB drive to avoid copying
+- First model load takes longer - subsequent loads are faster
+- Use smaller models (phi) for quick testing
+
+DEVELOPMENT WORKFLOW:
+----------------------------------------------------------------
+1. Start: activate_ai_env.bat
+2. Check models: ollama list
+3. Start development: code . or jupyter lab
+4. Test AI: ollama run llama2
+5. Build projects in: D:\AI_Environment\Projects
+
+COMMON ISSUES AND SOLUTIONS:
+----------------------------------------------------------------
+
+Problem: "Python not found"
+Solution: Make sure you activated the environment with activate_ai_env.bat
+
+Problem: "Ollama connection failed"
+Solution: Start Ollama server with 'ollama serve' in separate terminal
+
+Problem: "VS Code won't start"
+Solution: Check if antivirus is blocking the executable
+
+Problem: "Slow performance"
+Solution: Use USB 3.0+ port and SSD-based USB drive
+
+Problem: "Package import errors"
+Solution: Run the validation tool to check installation
+
+Problem: "Model not found"
+Solution: Download with 'ollama pull model-name'
+
+Problem: "Out of memory"
+Solution: Close other applications, use smaller models
+
+KEYBOARD SHORTCUTS:
+----------------------------------------------------------------
+VS Code:
+- Ctrl+Shift+P: Command palette
+- F5: Run/Debug
+- Ctrl+`: Open terminal
+- Ctrl+Shift+E: Explorer
+
+Ollama Chat:
+- /bye: Exit chat
+- Ctrl+C: Force exit
+- Up arrow: Previous command
+
+Jupyter:
+- Shift+Enter: Run cell
+- Ctrl+Enter: Run cell, stay in cell
+- A: Insert cell above
+- B: Insert cell below
+
+PRODUCTIVITY TIPS:
+----------------------------------------------------------------
+- Save frequently (Ctrl+S in VS Code)
+- Use Git for version control of projects
+- Create templates for common AI tasks
+- Keep a project log of what works
+- Use descriptive filenames and comments
+- Test with simple prompts first
+
+MODEL SELECTION GUIDE:
+----------------------------------------------------------------
+- phi:2.7b      - Fastest, good for testing
+- mistral:7b    - Balanced speed and quality
+- llama2:7b     - High quality, general purpose
+- codellama:7b  - Best for programming tasks
+
+Start with phi for development, switch to llama2 for production.
+
+TROUBLESHOOTING CHECKLIST:
+----------------------------------------------------------------
+When things go wrong:
+1. Is AI2025 environment active? (check prompt)
+2. Is Ollama running? (tasklist | findstr ollama)
+3. Is USB drive properly connected as D:?
+4. Any antivirus blocking executables?
+5. Sufficient RAM available? (check Task Manager)
+6. All files in correct locations? (run validate.bat)
+
+GETTING HELP:
+----------------------------------------------------------------
+- Run: validate.bat for system health check
+- Check log files in: D:\AI_Environment\Logs\
+- Review this help system: help\help_menu.bat
+- Check official documentation for specific tools
+- Test with minimal examples first

@@ -1,0 +1,225 @@
+{
+  "config_version": "3.0.28",
+  "architecture": "modular",
+  "description": "AI Environment modular configuration system",
+  "components": {
+    "metadata": "config/metadata.json",
+    "expected_versions": "config/expected_versions.json",
+    "version_history": "config/version_history.json",
+    "install_config": "config/install_config.json"
+  },
+  "legacy_support": {
+    "note": "This file maintains compatibility with existing tools",
+    "metadata_inline": {
+      "system_version": "3.0.28",
+      "created_date": "2025-08-14",
+      "created_time": "10:30",
+      "description": "AI Environment Python System with comprehensive management tools"
+    }
+  },
+  "usage": {
+    "check_versions": "Loads expected_versions.json for file version checking",
+    "version_history": "Loads version_history.json for changelog display",
+    "metadata": "Loads metadata.json for system information",
+    "install_config": "Loads install_config.json for package requirements"
+  },
+  "benefits": [
+    "Each configuration file under 250 lines",
+    "Modular architecture for easier maintenance",
+    "Improved JSON validation and error handling",
+    "Better separation of concerns",
+    "Easier to update individual components"
+  ],
+  "expected_versions": {
+    "batch_files": {
+      "run_ai_env.bat": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Python Launcher v3.0.28",
+        "description": "Main launcher script"
+      },
+      "setup_python_env.bat": {
+        "version": "3.0.28",
+        "search_pattern": "Setup Python Environment for AI Environment Manager v3.0.28",
+        "description": "Python environment setup script"
+      },
+      "check_versions.bat": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Version Checker v3.0.28",
+        "description": "Version verification script"
+      }
+    },
+    "python_files": {
+      "src/ai_path_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "PATH management module"
+      },
+      "src/ai_conda_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Conda management module"
+      },
+      "src/ai_component_setup.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Component setup module"
+      },
+      "src/ai_ollama_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Ollama server management module with background process tracking"
+      },
+      "src/ai_status_display.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Status display module"
+      },
+      "src/ai_menu_system.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Interactive menu system with color support and fixed visibility"
+      },
+      "src/activate_ai_env.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Main activation script with enhanced exit options"
+      },
+      "src/verify_checksums.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Checksum Verifier v3.0.28",
+        "description": "Checksum verification script"
+      },
+      "src/ai_jupyter_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Jupyter Lab Manager",
+        "description": "Jupyter Lab management with enhanced startup detection"
+      },
+      "src/ai_action_handlers.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Action handlers with terminal launcher support"
+      },
+      "src/ai_component_tester.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Component testing with perfect 9/9 Markdown tests"
+      },
+      "src/ai_process_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Background process manager with enhanced VS Code integration"
+      },
+      "src/ai_app_launcher.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Application launcher with VS Code AI2025 interpreter setup"
+      },
+      "src/ai_model_loader.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Model loader with Unicode fixes and extended timeout"
+      },
+      "src/ai_model_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Model Manager",
+        "description": "AI model management system"
+      },
+      "src/ai_model_downloader.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Model Downloader",
+        "description": "AI model downloader with URL and popular model support"
+      },
+      "src/ai_environment_validator.py": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "Environment validation system with install_config.json comparison"
+      },
+      "src/ai_terminal_launcher.py": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "Terminal launcher with AI2025 environment and return functionality"
+      },
+      "src/ai_document_viewer.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Document viewer with perfect Markdown formatting"
+      },
+      "src/ai_update_manager.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Update manager with ZIP file detection and intelligent installation"
+      },
+      "src/ai_update_utils.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Update utility functions"
+      },
+      "src/ai_update_display.py": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Module v3.0.28",
+        "description": "Update display functions"
+      }
+    },
+    "config_files": {
+      "config/install_config.json": {
+        "version": "3.0.28",
+        "search_pattern": "colorama",
+        "description": "Package installation configuration with enhanced dependencies"
+      },
+      "config/metadata.json": {
+        "version": "3.0.28",
+        "search_pattern": "system_version",
+        "description": "System metadata and configuration"
+      },
+      "config/expected_versions.json": {
+        "version": "3.0.28",
+        "search_pattern": "batch_files",
+        "description": "Expected file versions configuration"
+      },
+      "config/version_history.json": {
+        "version": "3.0.28",
+        "search_pattern": "version_history",
+        "description": "Complete version history and changelog"
+      }
+    },
+    "help_files": {
+      "help/phi_2_7b.txt": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "Phi 2.7B model help and documentation"
+      },
+      "help/llama2_7b.txt": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "Llama2 7B model help and documentation"
+      },
+      "help/mistral_7b.txt": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "Mistral 7B model help and documentation"
+      },
+      "help/codellama_7b.txt": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "CodeLlama 7B model help and documentation"
+      },
+      "help/gpt_oss_20b.txt": {
+        "version": "3.0.28",
+        "search_pattern": "Version: 3.0.28",
+        "description": "GPT-OSS 20B model help and documentation"
+      }
+    },
+    "documentation_files": {
+      "README.md": {
+        "version": "3.0.28",
+        "search_pattern": "# AI Environment Python System v3.0.28",
+        "description": "Main documentation file"
+      },
+      "PACKAGE_INFO.txt": {
+        "version": "3.0.28",
+        "search_pattern": "AI Environment Python System v3.0.28",
+        "description": "Package information and contents"
+      }
+    }
+  }
+}

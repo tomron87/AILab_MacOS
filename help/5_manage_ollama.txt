@@ -1,0 +1,74 @@
+MANAGING OLLAMA SERVER
+================================================================
+
+SERVER STATUS:
+----------------------------------------------------------------
+Check if Ollama is running:
+  tasklist | findstr ollama
+
+Check Ollama version:
+  ollama --version
+
+View server logs:
+  Look for ollama.exe process in Task Manager
+
+SERVER CONTROL:
+----------------------------------------------------------------
+Start Ollama server manually:
+  ollama serve
+
+Start Ollama in background:
+  start /B ollama serve
+
+Stop Ollama server:
+  taskkill /IM ollama.exe /F
+
+Restart Ollama server:
+  taskkill /IM ollama.exe /F && ollama serve
+
+SERVER CONFIGURATION:
+----------------------------------------------------------------
+Default API endpoint: http://127.0.0.1:11434
+Models directory: D:\AI_Environment\Models
+Config location: D:\AI_Environment\Ollama
+
+Environment variables (automatically set):
+- OLLAMA_HOST=127.0.0.1:11434
+- OLLAMA_MODELS=D:\AI_Environment\Models
+
+TROUBLESHOOTING:
+----------------------------------------------------------------
+
+Problem: "connection refused" errors
+Solution: 
+  1. Check if Ollama is running: tasklist | findstr ollama
+  2. If not running: ollama serve
+  3. Wait 10-15 seconds for startup
+
+Problem: Models not found
+Solution:
+  1. Check models: ollama list
+  2. Download missing model: ollama pull llama2
+  3. Verify model location: dir D:\AI_Environment\Models
+
+Problem: Slow responses
+Solution:
+  1. Check available RAM
+  2. Close unnecessary applications
+  3. Use smaller models (phi instead of llama2)
+  4. Restart Ollama: taskkill /IM ollama.exe /F && ollama serve
+
+MODEL MANAGEMENT:
+----------------------------------------------------------------
+List all models:
+  ollama list
+
+Remove unused models:
+  ollama rm model-name
+
+Pull new models:
+  ollama pull model-name
+
+Copy models between installations:
+  - Copy files from D:\AI_Environment\Models
+  - Run "ollama list" to verify

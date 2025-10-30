@@ -1,0 +1,98 @@
+SHUTDOWN PROCEDURES
+================================================================
+
+PROPER SHUTDOWN SEQUENCE:
+----------------------------------------------------------------
+Follow these steps to cleanly shut down the AI Environment:
+
+Step 1 - Stop Ollama Server:
+  taskkill /IM ollama.exe /F
+
+Step 2 - Close VS Code (if open):
+  Alt+F4 or File > Exit
+
+Step 3 - Close Jupyter Lab (if running):
+  Ctrl+C in Jupyter terminal, then type 'y'
+
+Step 4 - Stop any Python scripts:
+  Ctrl+C in terminals running Python
+
+Step 5 - Deactivate Conda environment:
+  conda deactivate
+
+Step 6 - Close terminal:
+  exit
+
+QUICK SHUTDOWN:
+----------------------------------------------------------------
+For quick shutdown, simply close the terminal window.
+Windows will automatically clean up most processes.
+
+However, Ollama may continue running in background.
+To stop it manually:
+  taskkill /IM ollama.exe /F
+
+GRACEFUL APPLICATION SHUTDOWN:
+----------------------------------------------------------------
+
+Jupyter Lab:
+  1. Save all notebooks (Ctrl+S)
+  2. Close browser tabs
+  3. In terminal: Ctrl+C
+  4. When prompted: type 'y' and press Enter
+
+VS Code:
+  1. Save all files (Ctrl+Shift+S)
+  2. Close VS Code (Alt+F4 or File > Exit)
+  3. VS Code will remember your workspace
+
+Streamlit Apps:
+  1. Close browser tab
+  2. In terminal: Ctrl+C
+
+Python Scripts:
+  1. Let script complete naturally, or
+  2. Interrupt with Ctrl+C
+
+CHECKING FOR RUNNING PROCESSES:
+----------------------------------------------------------------
+Check Ollama:
+  tasklist | findstr ollama
+
+Check Python processes:
+  tasklist | findstr python
+
+Check VS Code:
+  tasklist | findstr Code
+
+Kill specific process:
+  taskkill /IM process-name.exe /F
+
+SAFE USB REMOVAL:
+----------------------------------------------------------------
+Before unplugging USB drive:
+
+1. Complete shutdown sequence above
+2. Close all file explorers pointing to D: drive
+3. Right-click USB drive in system tray
+4. Select "Eject" or "Safely Remove Hardware"
+5. Wait for "Safe to remove" message
+6. Unplug USB drive
+
+WARNING SIGNS - DON'T REMOVE USB YET:
+----------------------------------------------------------------
+- "Device is currently in use" message
+- Ollama still running (tasklist | findstr ollama)
+- VS Code still open with files from D: drive
+- Command prompt still in D:\AI_Environment directory
+- File transfer operations in progress
+
+RESTART PROCEDURES:
+----------------------------------------------------------------
+After shutdown, to restart AI Environment:
+
+1. Ensure USB drive is connected as D:
+2. Navigate to D:\AI_Environment
+3. Run: activate_ai_env.bat
+4. Wait for initialization
+5. Continue working

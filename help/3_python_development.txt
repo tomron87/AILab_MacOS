@@ -1,0 +1,106 @@
+PYTHON DEVELOPMENT
+================================================================
+
+BASIC PYTHON COMMANDS:
+----------------------------------------------------------------
+Start Python interpreter:
+  python
+
+Run Python scripts:
+  python your_script.py
+  python -m script_name
+
+Check Python version:
+  python --version
+
+Exit Python interpreter:
+  exit() or Ctrl+Z then Enter
+
+JUPYTER LAB:
+----------------------------------------------------------------
+Start Jupyter Lab:
+  jupyter lab
+
+This opens in your web browser at: http://localhost:8888
+
+Features:
+- Interactive notebooks (.ipynb files)
+- File browser and editor
+- Terminal access
+- Variable inspector
+- Markdown support
+
+PACKAGE MANAGEMENT:
+----------------------------------------------------------------
+Install new packages:
+  pip install package-name
+
+Install specific version:
+  pip install package-name==1.2.3
+
+List installed packages:
+  pip list
+  conda list
+
+Update package:
+  pip install --upgrade package-name
+
+Uninstall package:
+  pip uninstall package-name
+
+PRE-INSTALLED AI LIBRARIES:
+----------------------------------------------------------------
+Core AI Frameworks:
+- langchain      - LLM application framework
+- langgraph      - Graph-based AI workflows  
+- pyautogen      - Multi-agent conversations
+- transformers   - Hugging Face models
+- torch          - PyTorch deep learning
+
+Web Frameworks:
+- streamlit      - AI web apps
+- fastapi        - REST APIs
+- gradio         - ML interfaces
+- flask          - Web development
+
+Data Science:
+- pandas         - Data manipulation
+- numpy          - Numerical computing
+- matplotlib     - Plotting
+- seaborn        - Statistical visualization
+- plotly         - Interactive plots
+- scikit-learn   - Machine learning
+
+Development Tools:
+- jupyter        - Interactive development
+- black          - Code formatting
+- pylint         - Code linting
+- requests       - HTTP requests
+
+EXAMPLE AI SCRIPT:
+----------------------------------------------------------------
+# Simple AI chat with Ollama
+import requests
+import json
+
+def chat_with_ai(message):
+    url = "http://127.0.0.1:11434/api/generate"
+    data = {
+        "model": "llama2",
+        "prompt": message,
+        "stream": False
+    }
+    response = requests.post(url, json=data)
+    return response.json()["response"]
+
+# Use it
+response = chat_with_ai("Hello, how are you?")
+print(response)
+
+VIRTUAL ENVIRONMENT INFO:
+----------------------------------------------------------------
+Current environment: AI2025
+Location: D:\AI_Environment\Miniconda\envs\AI2025
+Python executable: D:\AI_Environment\Miniconda\envs\AI2025\python.exe
+
+Always ensure you're in the AI2025 environment for AI development!

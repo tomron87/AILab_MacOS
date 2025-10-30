@@ -1,0 +1,58 @@
+USING OLLAMA AI MODELS
+================================================================
+
+BASIC COMMANDS:
+----------------------------------------------------------------
+List available models:
+  ollama list
+
+Download new models:
+  ollama pull llama2:7b
+  ollama pull codellama:7b
+  ollama pull mistral:7b
+  ollama pull phi:2.7b
+
+Start interactive chat with a model:
+  ollama run llama2
+  ollama run codellama      (for coding assistance)
+  ollama run mistral        (for general AI tasks)
+  ollama run phi            (lightweight, fast model)
+
+Exit chat: Type /bye or press Ctrl+C
+
+AVAILABLE MODELS:
+----------------------------------------------------------------
+- llama2:7b     - General purpose conversational AI
+- codellama:7b  - Specialized for code generation and help
+- mistral:7b    - Efficient general purpose model
+- phi:2.7b      - Compact high-performance model
+
+MODEL USAGE TIPS:
+----------------------------------------------------------------
+- First time loading a model may take 1-2 minutes
+- Models stay in memory for faster subsequent use
+- Use codellama for programming questions
+- Use llama2 or mistral for general questions
+- phi model is fastest for quick responses
+
+EXAMPLE CHAT SESSION:
+----------------------------------------------------------------
+> ollama run llama2
+>>> Hello, can you help me learn Python?
+Sure! Python is a great language for AI and data science...
+
+>>> How do I use pandas for data analysis?
+Pandas is excellent for data manipulation. Here's how...
+
+>>> /bye
+Goodbye!
+
+API USAGE (for developers):
+----------------------------------------------------------------
+Ollama provides a REST API at: http://127.0.0.1:11434
+
+Python example:
+import requests
+response = requests.post('http://127.0.0.1:11434/api/generate', 
+    json={'model': 'llama2', 'prompt': 'Hello!', 'stream': False})
+print(response.json()['response'])

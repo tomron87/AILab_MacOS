@@ -1,0 +1,81 @@
+USING VS CODE WITH AI ENVIRONMENT
+================================================================
+
+OPENING VS CODE:
+----------------------------------------------------------------
+Open VS Code in current directory:
+  code .
+
+Open VS Code in Projects folder:
+  cd Projects
+  code .
+
+Open specific file:
+  code filename.py
+
+WHAT'S PRE-CONFIGURED:
+----------------------------------------------------------------
+- Python interpreter: AI2025 environment automatically selected
+- Jupyter notebook support built-in
+- Python extensions installed:
+  * Python language support
+  * Jupyter integration
+  * Python linting and formatting
+  * Code debugging
+- AI development settings optimized
+
+CREATING NEW PROJECTS:
+----------------------------------------------------------------
+1. Navigate to Projects folder:
+   cd Projects
+
+2. Create new project folder:
+   mkdir MyAIProject
+   cd MyAIProject
+
+3. Open in VS Code:
+   code .
+
+4. Create new Python file:
+   File > New File
+   Save as: main.py
+
+5. Start coding with AI libraries!
+
+USEFUL VS CODE FEATURES:
+----------------------------------------------------------------
+- Ctrl+Shift+P: Command palette
+- F5: Run/Debug Python script
+- Ctrl+Enter: Run code in Python terminal
+- Shift+Enter: Run code in Jupyter cell
+
+JUPYTER NOTEBOOKS IN VS CODE:
+----------------------------------------------------------------
+1. Create new notebook:
+   File > New File
+   Save as: notebook.ipynb
+
+2. Select kernel:
+   Click "Select Kernel" > AI2025 environment
+
+3. Write code in cells and run with Shift+Enter
+
+PYTHON DEBUGGING:
+----------------------------------------------------------------
+- Set breakpoints: Click left margin next to line numbers
+- Press F5 to start debugging
+- F10: Step over, F11: Step into, F5: Continue
+
+INTEGRATED TERMINAL:
+----------------------------------------------------------------
+- Terminal > New Terminal
+- Automatically activates AI2025 environment
+- Run commands directly: python, pip, ollama, etc.
+
+WORKSPACE SETTINGS:
+----------------------------------------------------------------
+VS Code is configured to:
+- Use Python from D:\AI_Environment\Miniconda\envs\AI2025
+- Enable auto-completion for AI libraries
+- Format code with Black formatter
+- Lint code with pylint

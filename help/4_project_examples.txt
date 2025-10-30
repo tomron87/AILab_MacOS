@@ -1,0 +1,86 @@
+PROJECT EXAMPLES
+================================================================
+
+NAVIGATING TO EXAMPLES:
+----------------------------------------------------------------
+Go to Projects folder:
+  cd Projects
+
+List available examples:
+  dir
+
+View project structure:
+  tree /f
+
+AVAILABLE PROJECT TEMPLATES:
+----------------------------------------------------------------
+
+1. 01_Basic_LLM_Example
+   Description: Simple Ollama integration
+   File: main.py
+   Run with: python main.py
+ECHO is off.
+   What it demonstrates:
+   - Direct HTTP requests to Ollama API
+   - Basic prompt and response handling
+   - Error handling for API calls
+
+2. 02_LangChain_Example
+   Description: LangChain framework demo
+   File: main.py
+   Run with: python main.py
+ECHO is off.
+   What it demonstrates:
+   - LangChain LLM integration
+   - Prompt templates
+   - Chain creation and execution
+
+3. 03_Streamlit_App
+   Description: Web AI chat interface
+   File: app.py
+   Run with: streamlit run app.py
+ECHO is off.
+   What it demonstrates:
+   - Web-based chat interface
+   - Model selection
+   - Session state management
+   - Real-time AI responses
+
+RUNNING THE EXAMPLES:
+----------------------------------------------------------------
+
+Basic LLM Example:
+  cd Projects\01_Basic_LLM_Example
+  python main.py
+
+LangChain Example:
+  cd Projects\02_LangChain_Example
+  python main.py
+
+Streamlit Web App:
+  cd Projects\03_Streamlit_App
+  streamlit run app.py
+  (Opens in browser at http://localhost:8501)
+
+CREATING YOUR OWN PROJECTS:
+----------------------------------------------------------------
+
+1. Create new project folder:
+   cd Projects
+   mkdir MyNewProject
+   cd MyNewProject
+
+2. Create main Python file:
+   echo. > main.py
+
+3. Open in VS Code:
+   code .
+
+4. Start with basic template:
+   # My AI Project
+   import requests
+   import json
+ECHO is off.
+   # Your code here
+
+The AI environment is portable, so your projects work anywhere!
