@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 AI Path Finder - Finds AI_Environment on macOS
-Shared utility for all AI Environment modules
+Shared utility for all AI Environment modules (UV version)
 """
 
 import os
@@ -31,7 +31,7 @@ def find_ai_environment(verbose: bool = False) -> Optional[Path]:
 
     for path in relative_paths:
         if path.exists() and path.is_dir():
-            if (path / "Ollama").exists() or (path / "Miniconda").exists():
+            if (path / "Ollama").exists():
                 if verbose:
                     print(f"[VERBOSE] Found AI_Environment at: {path}")
                 return path
@@ -50,7 +50,7 @@ def find_ai_environment(verbose: bool = False) -> Optional[Path]:
             # Check AILab-Mac/AI_Environment on external drive
             ai_lab_path = volume / "AILab-Mac" / "AI_Environment"
             if ai_lab_path.exists() and ai_lab_path.is_dir():
-                if (ai_lab_path / "Ollama").exists() or (ai_lab_path / "Miniconda").exists():
+                if (ai_lab_path / "Ollama").exists():
                     if verbose:
                         print(f"[VERBOSE] Found AI_Environment at: {ai_lab_path}")
                     return ai_lab_path
@@ -58,7 +58,7 @@ def find_ai_environment(verbose: bool = False) -> Optional[Path]:
             # Check AI_Environment directly on external drive
             ai_env_path = volume / "AI_Environment"
             if ai_env_path.exists() and ai_env_path.is_dir():
-                if (ai_env_path / "Ollama").exists() or (ai_env_path / "Miniconda").exists():
+                if (ai_env_path / "Ollama").exists():
                     if verbose:
                         print(f"[VERBOSE] Found AI_Environment at: {ai_env_path}")
                     return ai_env_path
@@ -72,7 +72,7 @@ def find_ai_environment(verbose: bool = False) -> Optional[Path]:
 
     for path in standard_paths:
         if path.exists() and path.is_dir():
-            if (path / "Ollama").exists() or (path / "Miniconda").exists():
+            if (path / "Ollama").exists():
                 if verbose:
                     print(f"[VERBOSE] Found AI_Environment at: {path}")
                 return path
@@ -136,9 +136,51 @@ def find_vscode() -> Optional[Path]:
     return None
 
 
+def find_uv_venv() -> Optional[Path]:
+    """
+    Find UV virtual environment on macOS.
+    Looks for .venv directory in the project root.
+
+    Returns:
+        Path to .venv directory or None if not found
+    """
+    # Get the current script's directory (src/)
+    current_dir = Path(__file__).resolve().parent
+
+    # Go up to project root (AILab-Mac/)
+    project_root = current_dir.parent
+
+    # Check for .venv in project root
+    venv_path = project_root / ".venv"
+    if venv_path.exists() and venv_path.is_dir():
+        # Verify it has a Python executable
+        if (venv_path / "bin" / "python").exists():
+            return venv_path
+
+    # Check external drives for AILab-Mac/.venv
+    volumes_path = Path("/Volumes")
+    if volumes_path.exists():
+        for volume in volumes_path.iterdir():
+            if not volume.is_dir():
+                continue
+
+            # Skip system volumes
+            if volume.name in ["Macintosh HD", "Preboot", "Recovery", "VM"]:
+                continue
+
+            # Check AILab-Mac/.venv on external drive
+            venv_path = volume / "AILab-Mac" / ".venv"
+            if venv_path.exists() and venv_path.is_dir():
+                if (venv_path / "bin" / "python").exists():
+                    return venv_path
+
+    return None
+
 def find_miniconda() -> Optional[Path]:
     """
     Find Miniconda installation on macOS.
+    DEPRECATED: This project now uses UV for environment management.
+    This function is kept for backward compatibility.
 
     Returns:
         Path to miniconda root directory or None if not found
@@ -177,7 +219,7 @@ def find_miniconda() -> Optional[Path]:
 
 def main():
     """Test path finder"""
-    print("=== macOS Path Finder Test ===\n")
+    print("=== macOS Path Finder Test (UV Version) ===\n")
 
     print("Searching for AI_Environment...")
     ai_env_path = find_ai_environment(verbose=True)
@@ -200,10 +242,10 @@ def main():
     else:
         print("❌ Not found")
 
-    print("\nSearching for Miniconda...")
-    conda_path = find_miniconda()
-    if conda_path:
-        print(f"✅ Found: {conda_path}")
+    print("\nSearching for UV Virtual Environment...")
+    venv_path = find_uv_venv()
+    if venv_path:
+        print(f"✅ Found: {venv_path}")
     else:
         print("❌ Not found")
 

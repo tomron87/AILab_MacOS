@@ -1,0 +1,27 @@
+[project]
+name = "ailab-mac"
+version = "3.0.28"
+description = "A portable, modular AI development environment for macOS with interactive Python-based management"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "psutil>=5.9.0",
+    "colorama>=0.4.6",
+    "requests>=2.31.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "jupyter>=1.0.0",
+    "jupyterlab>=4.0.0",
+]
+
+[project.optional-dependencies]
+flask = [
+    "flask>=3.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []

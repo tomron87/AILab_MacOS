@@ -26,14 +26,14 @@ except ImportError:
         RESET_ALL = ""
 
 from ai_path_manager import PathManager
-from ai_conda_manager import CondaManager
+from ai_uv_manager import UVManager
 
 class ComponentTester:
     """Comprehensive testing of AI Environment components"""
 
-    def __init__(self, ai_env_path, conda_path):
+    def __init__(self, ai_env_path, venv_path):
         self.ai_env_path = Path(ai_env_path)
-        self.conda_path = Path(conda_path)
+        self.venv_path = Path(venv_path)
         
     def print_step(self, step_num, description):
         """Print step header"""
@@ -58,19 +58,13 @@ class ComponentTester:
         if self.ai_env_path.exists():
             self.print_success("AI Environment directory found")
 
-            # Check for Miniconda (required) - check multiple locations
-            miniconda_found = False
-            if (self.ai_env_path / "Miniconda").exists():
-                self.print_success(f"  ✓ Miniconda directory found (portable)")
-                miniconda_found = True
-            elif (self.ai_env_path / "AI_Environment" / "Miniconda").exists():
-                self.print_success(f"  ✓ Miniconda directory found (in AI_Environment subfolder)")
-                miniconda_found = True
-            elif self.conda_path.exists():
-                self.print_success(f"  ✓ Miniconda found at: {self.conda_path}")
-                miniconda_found = True
+            # Check for UV virtual environment (required)
+            venv_found = False
+            if self.venv_path.exists():
+                self.print_success(f"  ✓ UV virtual environment found at: {self.venv_path}")
+                venv_found = True
             else:
-                self.print_error(f"  ✗ Miniconda directory not found")
+                self.print_error(f"  ✗ UV virtual environment not found")
 
             # Check for Ollama (optional) - check multiple locations
             ollama_found = False
@@ -89,95 +83,83 @@ class ComponentTester:
             else:
                 self.print_info(f"  - AI_Installer directory not found (optional)")
 
-            if miniconda_found:
+            if venv_found:
                 self.print_success("Directory structure test PASSED")
                 return True
             else:
-                self.print_error(f"Directory structure test FAILED - Miniconda not found")
+                self.print_error(f"Directory structure test FAILED - UV virtual environment not found")
                 return False
         else:
             self.print_error("AI Environment directory not found")
             return False
             
-    def test_conda_installation(self):
-        """Test Conda installation"""
-        if self.conda_path.exists():
-            self.print_success("Conda directory found")
-            
-            # Test conda executable
-            conda_exe = self.conda_path / "bin" / "conda"
-            if conda_exe.exists():
-                self.print_success("  ✓ conda found")
-                
-                # Test conda command
-                try:
-                    result = subprocess.run([str(conda_exe), "--version"], 
-                                          capture_output=True, text=True, timeout=10)
-                    if result.returncode == 0:
-                        version = result.stdout.strip()
-                        self.print_success(f"  ✓ Conda version: {version}")
-                        self.print_success("Conda installation test PASSED")
-                        return True
-                    else:
-                        self.print_error("  ✗ Conda command failed")
-                        self.print_error("Conda installation test FAILED")
-                        return False
-                except Exception as e:
-                    self.print_error(f"  ✗ Conda test error: {e}")
-                    self.print_error("Conda installation test FAILED")
-                    return False
+    def test_uv_installation(self):
+        """Test UV installation"""
+        try:
+            # Test UV command
+            result = subprocess.run(["uv", "--version"],
+                                  capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                version = result.stdout.strip()
+                self.print_success(f"  ✓ UV version: {version}")
+                self.print_success("UV installation test PASSED")
+                return True
             else:
-                self.print_error("  ✗ conda not found")
-                self.print_error("Conda installation test FAILED")
+                self.print_error("  ✗ UV command failed")
+                self.print_error("UV installation test FAILED")
                 return False
-        else:
-            self.print_error("Conda directory not found")
+        except FileNotFoundError:
+            self.print_error("  ✗ UV not found in PATH")
+            self.print_error("UV installation test FAILED")
+            return False
+        except Exception as e:
+            self.print_error(f"  ✗ UV test error: {e}")
+            self.print_error("UV installation test FAILED")
             return False
             
-    def test_ai2025_environment(self):
-        """Test AI2025 conda environment"""
-        ai2025_path = self.conda_path / "envs" / "AI2025"
-        if ai2025_path.exists():
-            self.print_success("AI2025 environment directory found")
-            
+    def test_venv_environment(self):
+        """Test UV virtual environment"""
+        if self.venv_path.exists():
+            self.print_success("UV virtual environment directory found")
+
             # Test Python executable
-            python_exe = ai2025_path / "python"
+            python_exe = self.venv_path / "bin" / "python"
             if python_exe.exists():
                 self.print_success("  ✓ Python executable found")
-                
+
                 # Test Python version
                 try:
-                    result = subprocess.run([str(python_exe), "--version"], 
+                    result = subprocess.run([str(python_exe), "--version"],
                                           capture_output=True, text=True, timeout=10)
                     if result.returncode == 0:
                         version = result.stdout.strip()
                         self.print_success(f"  ✓ Python version: {version}")
-                        self.print_success("AI2025 environment test PASSED")
+                        self.print_success("UV virtual environment test PASSED")
                         return True
                     else:
                         self.print_error("  ✗ Python version check failed")
-                        self.print_error("AI2025 environment test FAILED")
+                        self.print_error("UV virtual environment test FAILED")
                         return False
                 except Exception as e:
                     self.print_error(f"  ✗ Python test error: {e}")
-                    self.print_error("AI2025 environment test FAILED")
+                    self.print_error("UV virtual environment test FAILED")
                     return False
             else:
                 self.print_error("  ✗ Python executable not found")
-                self.print_error("AI2025 environment test FAILED")
+                self.print_error("UV virtual environment test FAILED")
                 return False
         else:
-            self.print_error("AI2025 environment not found")
+            self.print_error("UV virtual environment not found")
             return False
             
     def test_python_packages(self):
         """Test required Python packages"""
         required_packages = ["psutil", "colorama", "requests", "numpy", "pandas"]
-        
+
         try:
             # Activate environment and test packages
-            conda_manager = CondaManager(self.conda_path)
-            conda_manager.setup_conda_paths("AI2025")
+            uv_manager = UVManager(self.venv_path)
+            uv_manager.setup_venv_paths()
             
             package_results = []
             for package in required_packages:
@@ -282,11 +264,11 @@ class ComponentTester:
                 self.print_info("  ℹ AI Environment paths not in current PATH (normal)")
             
             # Test environment variables
-            conda_env = os.environ.get("CONDA_DEFAULT_ENV", "")
-            if conda_env:
-                self.print_success(f"  ✓ Active conda environment: {conda_env}")
+            venv_active = os.environ.get("VIRTUAL_ENV", "")
+            if venv_active:
+                self.print_success(f"  ✓ Active virtual environment: {venv_active}")
             else:
-                self.print_info("  ℹ No active conda environment")
+                self.print_info("  ℹ No active virtual environment")
             
             # Test basic Windows commands
             path_manager = PathManager()
@@ -440,12 +422,12 @@ DEL "%~f0"
         
         self.print_step(1, "Testing AI Environment directory structure")
         results["directory_structure"] = self.test_directory_structure()
-        
-        self.print_step(2, "Testing Conda installation")
-        results["conda_installation"] = self.test_conda_installation()
-        
-        self.print_step(3, "Testing AI2025 environment")
-        results["ai2025_environment"] = self.test_ai2025_environment()
+
+        self.print_step(2, "Testing UV installation")
+        results["uv_installation"] = self.test_uv_installation()
+
+        self.print_step(3, "Testing UV virtual environment")
+        results["venv_environment"] = self.test_venv_environment()
         
         self.print_step(4, "Testing Python packages")
         results["python_packages"] = self.test_python_packages()
@@ -496,15 +478,15 @@ def main():
     
     parser = argparse.ArgumentParser(description=
         "AI Environment Component Tester")
-    parser.add_argument("--ai-env-path", default=".", 
+    parser.add_argument("--ai-env-path", default=".",
                        help="Path to AI Environment directory")
-    parser.add_argument("--conda-path", 
-                       default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "Miniconda"),
-                       help="Path to Miniconda installation")
-    
+    parser.add_argument("--venv-path",
+                       default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".venv"),
+                       help="Path to UV virtual environment")
+
     args = parser.parse_args()
-    
-    tester = ComponentTester(args.ai_env_path, args.conda_path)
+
+    tester = ComponentTester(args.ai_env_path, args.venv_path)
     tester.run_all_tests()
 
 if __name__ == "__main__":

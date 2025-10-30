@@ -1,46 +1,45 @@
 #!/bin/bash
-# AI Environment Prerequisites Checker for macOS
+# AI Environment Prerequisites Checker for macOS (UV Version)
 # This script checks if all required components are installed
 
 echo "================================================================"
-echo "        AI Environment Prerequisites Checker - macOS"
+echo "   AI Environment Prerequisites Checker - macOS (UV Version)"
 echo "================================================================"
 echo ""
 
 ISSUES_FOUND=0
 
-# Check 1: Python 3
-echo "[1/6] Checking Python 3..."
-if command -v python3 &> /dev/null; then
-    PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-    echo "  ✅ Python 3 found: ${PYTHON_VERSION}"
+# Check 1: UV
+echo "[1/6] Checking UV..."
+if command -v uv &> /dev/null; then
+    UV_VERSION=$(uv --version 2>&1)
+    echo "  ✅ UV found: ${UV_VERSION}"
 else
-    echo "  ❌ Python 3 not found"
-    echo "     Install with: brew install python3"
+    echo "  ❌ UV not found"
+    echo "     Install with: curl -LsSf https://astral.sh/uv/install.sh | sh"
+    echo "     Or via Homebrew: brew install uv"
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
 fi
 echo ""
 
-# Check 2: Conda/Miniconda
-echo "[2/6] Checking Conda/Miniconda..."
-if command -v conda &> /dev/null; then
-    CONDA_VERSION=$(conda --version 2>&1 | awk '{print $2}')
-    CONDA_PATH=$(which conda)
-    echo "  ✅ Conda found: ${CONDA_VERSION}"
-    echo "     Location: ${CONDA_PATH}"
+# Check 2: UV Virtual Environment
+echo "[2/6] Checking UV Virtual Environment..."
+if [ -d ".venv" ]; then
+    echo "  ✅ UV virtual environment found at .venv"
 
-    # Check for AI2025 environment
-    if conda env list | grep -q "AI2025"; then
-        echo "  ✅ AI2025 environment found"
+    # Check if Python executable exists in venv
+    if [ -f ".venv/bin/python" ]; then
+        VENV_PYTHON_VERSION=$(.venv/bin/python --version 2>&1 | awk '{print $2}')
+        echo "  ✅ Python ${VENV_PYTHON_VERSION} in virtual environment"
     else
-        echo "  ⚠️  AI2025 environment not found"
-        echo "     Create with: conda create -n AI2025 python=3.11 -y"
+        echo "  ⚠️  Python executable not found in virtual environment"
+        echo "     Recreate with: uv venv --python 3.11"
         ISSUES_FOUND=$((ISSUES_FOUND + 1))
     fi
 else
-    echo "  ❌ Conda/Miniconda not found"
-    echo "     Download from: https://docs.conda.io/en/latest/miniconda.html"
-    echo "     Recommended install location: ~/miniconda3"
+    echo "  ❌ UV virtual environment not found"
+    echo "     Create with: uv venv --python 3.11"
+    echo "     Then install dependencies: uv pip install -e ."
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
 fi
 echo ""
@@ -94,18 +93,14 @@ else
 fi
 echo ""
 
-# Check 6: Required Python packages (if conda is available)
+# Check 6: Required Python packages (if venv is available)
 echo "[6/6] Checking Python packages..."
-if command -v conda &> /dev/null && conda env list | grep -q "AI2025"; then
-    # Activate AI2025 and check packages
-    eval "$(conda shell.bash hook)"
-    conda activate AI2025 2>/dev/null
-
+if [ -f ".venv/bin/python" ]; then
     PACKAGES=("psutil" "colorama" "requests" "numpy" "pandas")
     ALL_PACKAGES_FOUND=true
 
     for package in "${PACKAGES[@]}"; do
-        if python3 -c "import ${package}" 2>/dev/null; then
+        if .venv/bin/python -c "import ${package}" 2>/dev/null; then
             echo "  ✅ ${package} installed"
         else
             echo "  ❌ ${package} not installed"
@@ -116,14 +111,12 @@ if command -v conda &> /dev/null && conda env list | grep -q "AI2025"; then
     if [ "$ALL_PACKAGES_FOUND" = false ]; then
         echo ""
         echo "  Install missing packages with:"
-        echo "     conda activate AI2025"
-        echo "     pip install psutil colorama requests numpy pandas jupyter jupyterlab"
+        echo "     source .venv/bin/activate"
+        echo "     uv pip install -e ."
         ISSUES_FOUND=$((ISSUES_FOUND + 1))
     fi
-
-    conda deactivate 2>/dev/null
 else
-    echo "  ⚠️  Cannot check packages (AI2025 environment not found)"
+    echo "  ⚠️  Cannot check packages (virtual environment not found)"
 fi
 echo ""
 

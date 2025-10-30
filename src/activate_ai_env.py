@@ -58,53 +58,52 @@ SCRIPT_VERSION = get_highest_version()
 SCRIPT_DATE = get_current_datetime()
 
 def check_environment():
-    """Check if running in proper conda environment"""
-    # Check if we're in conda environment
-    conda_env = os.environ.get('CONDA_DEFAULT_ENV', '')
-    conda_prefix = os.environ.get('CONDA_PREFIX', '')
-    
+    """Check if running in proper UV virtual environment"""
+    # Check if we're in virtual environment
+    venv_active = os.environ.get('VIRTUAL_ENV', '')
+
     # Check if psutil is available (indicator of proper environment)
     try:
         import psutil
         psutil_available = True
     except ImportError:
         psutil_available = False
-    
-    # If not in AI2025 environment or psutil not available, show guidance
-    if conda_env != 'AI2025' or not psutil_available:
+
+    # If not in virtual environment or psutil not available, show guidance
+    if not venv_active or not psutil_available:
         print("=" * 70)
         print("⚠️  AI Environment - Incorrect Launch Method")
         print("=" * 70)
         print()
-        print("🚫 You are running this script directly outside the conda environment!")
+        print("🚫 You are running this script directly outside the virtual environment!")
         print()
         print("✅ CORRECT way to launch:")
-        print("   D:\\AI_Environment\\run_ai_env.bat")
+        print("   ~/Developer/AILab-Mac/run_ai_env.sh")
         print()
         print("❌ INCORRECT (what you did):")
         print("   python activate_ai_env.py")
-        print("   python D:\\AI_Environment\\activate_ai_env.py")
+        print("   python ~/Developer/AILab-Mac/activate_ai_env.py")
         print()
-        print("📋 The run_ai_env.bat script will:")
+        print("📋 The run_ai_env.sh script will:")
         print("   1. Set up the Python environment")
-        print("   2. Activate conda AI2025 environment")
+        print("   2. Activate UV virtual environment")
         print("   3. Install required packages (psutil, colorama)")
         print("   4. Launch this script properly")
         print()
-        print("🔧 Please use: D:\\AI_Environment\\run_ai_env.bat")
+        print("🔧 Please use: ./run_ai_env.sh")
         print("=" * 70)
-        
+
         # Ask user if they want to continue anyway
         try:
             response = input("\nDo you want to continue anyway? (y/N): ").strip().lower()
             if response not in ['y', 'yes']:
-                print("\nExiting. Please use run_ai_env.bat for proper setup.")
+                print("\nExiting. Please use run_ai_env.sh for proper setup.")
                 sys.exit(1)
             else:
                 print("\n⚠️  Continuing with limited functionality...")
                 print("   Some features may not work without proper environment setup.\n")
         except KeyboardInterrupt:
-            print("\n\nExiting. Please use run_ai_env.bat for proper setup.")
+            print("\n\nExiting. Please use run_ai_env.sh for proper setup.")
             sys.exit(1)
 
 # Check environment before proceeding
@@ -132,71 +131,27 @@ from ai_action_handlers import ActionHandlers
 class AIEnvironmentActivator:
     """Main AI Environment activation and management system"""
 
-    def _detect_miniconda_path(self):
+    def _detect_venv_path(self):
         """
-        Detect Miniconda installation location.
+        Detect UV virtual environment location.
         Priority order:
-        1. Portable: {ai_env_path}/Miniconda (preferred for portability)
-        2. Installer portable: {ai_env_path}/AI_Environment/Miniconda (when installer output is moved here)
-        3. PATH variable: Extract from 'which conda'
-        4. User profile: %USERPROFILE%/Miniconda3 or miniconda3
-        5. System-wide: C:/ProgramData/Miniconda3 or miniconda3
+        1. Standard location: {ai_env_path}/.venv (preferred)
+        2. External drives: /Volumes/*/AILab-Mac/.venv
         """
         import subprocess
         import os
 
-        # 1. Check portable installation first (PRIORITY)
-        portable_path = self.ai_env_path / "Miniconda"
-        if (portable_path / "bin" / "conda").exists():
+        # 1. Check standard location first (PRIORITY)
+        venv_path = self.ai_env_path / ".venv"
+        if (venv_path / "bin" / "python").exists():
             if self.verbose:
-                print(f"{Fore.GREEN}[VERBOSE] Found portable Miniconda at: {portable_path}{Style.RESET_ALL}")
-            return portable_path
+                print(f"{Fore.GREEN}[VERBOSE] Found UV virtual environment at: {venv_path}{Style.RESET_ALL}")
+            return venv_path
 
-        # 2. Check AI_Environment subfolder (installer output moved here)
-        installer_portable_path = self.ai_env_path / "AI_Environment" / "Miniconda"
-        if (installer_portable_path / "bin" / "conda").exists():
-            if self.verbose:
-                print(f"{Fore.GREEN}[VERBOSE] Found Miniconda in AI_Environment at: {installer_portable_path}{Style.RESET_ALL}")
-            return installer_portable_path
-
-        # 3. Try to detect from PATH environment variable
-        try:
-            result = subprocess.run(['which', 'conda'],
-                                  capture_output=True,
-                                  text=True,
-                                  timeout=5)
-            if result.returncode == 0:
-                conda_exe_path = result.stdout.strip().split('\n')[0].strip()
-                # Extract Miniconda root (remove \Scripts\conda)
-                conda_path = Path(conda_exe_path).parent.parent
-                if self.verbose:
-                    print(f"{Fore.YELLOW}[VERBOSE] Found Miniconda in PATH at: {conda_path}{Style.RESET_ALL}")
-                return conda_path
-        except Exception as e:
-            if self.verbose:
-                print(f"{Fore.YELLOW}[VERBOSE] Could not detect from PATH: {e}{Style.RESET_ALL}")
-
-        # 3. Check common user profile locations
-        user_profile = Path(os.environ.get('USERPROFILE', ''))
-        for conda_dir in ['Miniconda3', 'miniconda3']:
-            conda_path = user_profile / conda_dir
-            if (conda_path / "bin" / "conda").exists():
-                if self.verbose:
-                    print(f"{Fore.YELLOW}[VERBOSE] Found Miniconda at: {conda_path}{Style.RESET_ALL}")
-                return conda_path
-
-        # 4. Check common system-wide locations
-        for conda_dir in ['Miniconda3', 'miniconda3']:
-            conda_path = Path(f"C:/ProgramData/{conda_dir}")
-            if (conda_path / "bin" / "conda").exists():
-                if self.verbose:
-                    print(f"{Fore.YELLOW}[VERBOSE] Found Miniconda at: {conda_path}{Style.RESET_ALL}")
-                return conda_path
-
-        # Default to portable location even if it doesn't exist (will be created during install)
+        # Default to standard location even if it doesn't exist (will be created during setup)
         if self.verbose:
-            print(f"{Fore.RED}[VERBOSE] Miniconda not found, defaulting to: {portable_path}{Style.RESET_ALL}")
-        return portable_path
+            print(f"{Fore.YELLOW}[VERBOSE] Virtual environment not found, defaulting to: {venv_path}{Style.RESET_ALL}")
+        return venv_path
 
     def _detect_ollama_path(self):
         """
@@ -287,7 +242,7 @@ class AIEnvironmentActivator:
         current_path = script_dir.parent
 
         # Check if current directory is AI_Environment
-        if (current_path / "Ollama").exists() or (current_path / "Miniconda").exists():
+        if (current_path / "Ollama").exists():
             if self.verbose:
                 print(f"{Fore.GREEN}[VERBOSE] Found AI_Environment at current location: {current_path}{Style.RESET_ALL}")
             return current_path
@@ -302,7 +257,7 @@ class AIEnvironmentActivator:
             # Check AI_Lab\AI_Environment (external drives)
             ai_lab_path = drive_path / "AI_Lab" / "AI_Environment"
             if ai_lab_path.exists() and ai_lab_path.is_dir():
-                if (ai_lab_path / "Ollama").exists() or (ai_lab_path / "Miniconda").exists():
+                if (ai_lab_path / "Ollama").exists():
                     if self.verbose:
                         print(f"{Fore.GREEN}[VERBOSE] Found AI_Environment at: {ai_lab_path}{Style.RESET_ALL}")
                     return ai_lab_path
@@ -310,7 +265,7 @@ class AIEnvironmentActivator:
             # Check Drive:\AI_Environment (internal drives)
             ai_env_path = drive_path / "AI_Environment"
             if ai_env_path.exists() and ai_env_path.is_dir():
-                if (ai_env_path / "Ollama").exists() or (ai_env_path / "Miniconda").exists():
+                if (ai_env_path / "Ollama").exists():
                     if self.verbose:
                         print(f"{Fore.GREEN}[VERBOSE] Found AI_Environment at: {ai_env_path}{Style.RESET_ALL}")
                     return ai_env_path
@@ -326,20 +281,20 @@ class AIEnvironmentActivator:
         # Find AI_Environment installation (searches all drives)
         self.ai_env_path = self._find_ai_environment()
 
-        # Detect actual Miniconda location (portable first, then system)
-        self.conda_path = self._detect_miniconda_path()
+        # Detect UV virtual environment location
+        self.venv_path = self._detect_venv_path()
 
         # Detect actual Ollama location (portable first, then system)
         self.ollama_path = self._detect_ollama_path()
 
         # Initialize subsystems
         self.menu_system = MenuSystem(SCRIPT_VERSION, SCRIPT_DATE)
-        self.action_handlers = ActionHandlers(self.ai_env_path, self.conda_path, self.ollama_path)
+        self.action_handlers = ActionHandlers(self.ai_env_path, self.venv_path, self.ollama_path)
 
         if self.verbose:
             print(f"{Fore.CYAN}[VERBOSE] {__file__} v{SCRIPT_VERSION} ({SCRIPT_DATE}) starting{Style.RESET_ALL}")
             print(f"{Fore.CYAN}[VERBOSE] AI Environment path: {self.ai_env_path}{Style.RESET_ALL}")
-            print(f"{Fore.CYAN}[VERBOSE] Conda path: {self.conda_path}{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}[VERBOSE] Virtual environment path: {self.venv_path}{Style.RESET_ALL}")
             print(f"{Fore.CYAN}[VERBOSE] Ollama path: {self.ollama_path}{Style.RESET_ALL}")
             
     def print_info(self, message):
@@ -361,8 +316,8 @@ class AIEnvironmentActivator:
                 success = self.action_handlers.action_full_activation()
             elif choice == 2:  # Restore PATH
                 success = self.action_handlers.action_restore_path()
-            elif choice == 3:  # Activate conda only
-                success = self.action_handlers.action_activate_conda()
+            elif choice == 3:  # Activate virtual environment only
+                success = self.action_handlers.action_activate_venv()
             elif choice == 4:  # Test components
                 success = self.action_handlers.action_test_components()
             elif choice == 5:  # Setup Flask
@@ -382,7 +337,7 @@ class AIEnvironmentActivator:
             elif choice == 11:  # Advanced options
                 self.action_handlers.handle_advanced_menu()
                 continue
-            elif choice == 12:  # Open AI2025 Terminal
+            elif choice == 12:  # Open AILab Terminal
                 self.action_handlers.handle_terminal_launcher()
                 continue
             elif choice == 13:  # Version & Documentation
@@ -464,8 +419,8 @@ def main():
             success = activator.action_handlers.action_full_activation()
         elif action == "restore":
             success = activator.action_handlers.action_restore_path()
-        elif action == "conda":
-            success = activator.action_handlers.action_activate_conda()
+        elif action == "venv":
+            success = activator.action_handlers.action_activate_venv()
         elif action == "status":
             success = activator.action_handlers.action_show_status()
         elif action == "test":
@@ -481,7 +436,7 @@ def main():
             return
         else:
             print(f"{Fore.RED}[ERROR] Unknown action: {action}{Style.RESET_ALL}")
-            print(f"{Fore.YELLOW}[INFO] Available actions: activate, restore, conda, status, test{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}[INFO] Available actions: activate, restore, venv, status, test{Style.RESET_ALL}")
             return
                 
         if success:

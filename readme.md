@@ -1,20 +1,23 @@
-# AI Environment Python System v3.0.28 - macOS Edition
+# AI Environment Python System v3.0.28 - macOS Edition (UV Version)
 
-**A portable, modular AI development environment for macOS with interactive Python-based management**
+**A portable, modular AI development environment for macOS with UV-based Python management**
 
 > **Note:** This repository is adapted from the original Windows version: [https://github.com/rmisegal/AILab](https://github.com/rmisegal/AILab)
 >
-> This macOS edition features native Terminal.app integration, macOS application support, and bash-based launcher scripts while maintaining full compatibility with the original system architecture.
+> **Key Difference:** Unlike the original Windows version which uses Conda for environment management, this macOS edition uses **UV** - a modern, blazingly fast Python package installer and environment manager written in Rust. This provides 10-100x faster package installation and significantly smaller environment footprints.
+>
+> This macOS edition also features native Terminal.app integration, macOS application support, bash-based launcher scripts, and full compatibility with the original system architecture.
 
 ---
 
 ## 📋 **Overview**
 
-The AI Environment Python System for macOS is a comprehensive, self-contained development environment designed for AI and machine learning work. It provides an interactive menu-driven interface for managing conda environments, AI models (via Ollama), Jupyter Lab, VS Code, and various development tools - all from a portable installation optimized for macOS.
+The AI Environment Python System for macOS is a comprehensive, self-contained development environment designed for AI and machine learning work. It provides an interactive menu-driven interface for managing Python environments (via UV), AI models (via Ollama), Jupyter Lab, VS Code, and various development tools - all from a portable installation optimized for macOS.
 
 This is the macOS adaptation of the Windows AI Environment system, featuring:
 - Native macOS Terminal.app integration
 - Standard macOS application support (Ollama.app, VS Code.app)
+- Modern UV environment management for faster, more reliable dependency handling
 - Bash-based launcher scripts
 - External drive compatibility (works on /Volumes/)
 - Support for Apple Silicon and Intel Macs
@@ -27,12 +30,16 @@ Before using this system, you **must** install the required components and confi
 
 ### **Required Software:**
 
-1. **Miniconda** (Python environment manager)
-   - Download from: https://docs.conda.io/en/latest/miniconda.html
-   - Choose the appropriate installer for your Mac (Apple Silicon or Intel)
-   - Installation options:
-     - **Portable** (recommended): Install to `~/Developer/AILab-Mac/AI_Environment/Miniconda`
-     - **Standard**: Install to `~/miniconda3` (default location)
+1. **UV** (Fast Python package installer and environment manager)
+   - Install via curl:
+     ```bash
+     curl -LsSf https://astral.sh/uv/install.sh | sh
+     ```
+   - Or via Homebrew:
+     ```bash
+     brew install uv
+     ```
+   - Documentation: https://github.com/astral-sh/uv
 
 2. **Ollama** (Local AI model server)
    - Download from: https://ollama.ai
@@ -65,44 +72,31 @@ cd AILab-Mac
 chmod +x run_ai_env.sh setup_python_env.sh
 ```
 
-### **Step 3: Install Miniconda**
+### **Step 3: Install UV**
 
-If you don't have Miniconda installed, download and install it:
+Install UV (the fast Python package installer):
 
 ```bash
-# Download Miniconda installer (Apple Silicon example)
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+# Via curl (recommended)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# For Intel Macs, use:
-# curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+# Or via Homebrew
+brew install uv
 
-# Install to default location
-bash Miniconda3-latest-MacOSX-arm64.sh
-
-# OR for portable installation (inside AILab-Mac):
-# bash Miniconda3-latest-MacOSX-arm64.sh -b -p ~/Developer/AILab-Mac/AI_Environment/Miniconda
+# Verify installation
+uv --version
 ```
 
-### **Step 4: Create AI2025 Conda Environment**
+### **Step 4: Create UV Virtual Environment**
+
+The virtual environment will be created automatically when you first run the system, or you can create it manually:
 
 ```bash
-# Initialize conda for your shell (if not already done)
-~/miniconda3/bin/conda init bash
-# or if using zsh:
-~/miniconda3/bin/conda init zsh
+cd ~/Developer/AILab-Mac
+uv venv --python 3.11
 
-# Restart your terminal or source your profile
-source ~/.bash_profile  # or ~/.zshrc
-
-# Create the AI2025 environment
-conda create -n AI2025 python=3.11 -y
-
-# Activate and install required packages
-conda activate AI2025
-pip install psutil colorama requests numpy pandas jupyter jupyterlab
-
-# Deactivate when done
-conda deactivate
+# Install dependencies
+uv pip install -e .
 ```
 
 ### **Step 5: Install Ollama**
@@ -130,8 +124,8 @@ This section is for users who want to run the AI Environment from an external ha
 
 The AI Environment uses a two-part setup:
 
-1. **AI_Environment** - Contains Miniconda, Ollama (portable), VS Code (portable), and AI models
-2. **AILab-Mac** (this repository) - Management interface and tools
+1. **AILab-Mac** (this repository) - Contains the UV virtual environment, management interface, and tools
+2. **AI_Environment** (optional) - Contains Ollama (portable) and AI models
 
 ---
 
@@ -144,39 +138,34 @@ ls /Volumes/
 # Example: Your drive is named "MyDrive"
 cd /Volumes/MyDrive
 
-# Create the directory structure
-mkdir -p AILab-Mac/AI_Environment
-```
-
-### **Step 2: Install Miniconda to External Drive**
-
-```bash
-# Download Miniconda installer
-cd ~/Downloads
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
-
-# Install to external drive
-bash Miniconda3-latest-MacOSX-arm64.sh -b -p /Volumes/MyDrive/AILab-Mac/AI_Environment/Miniconda
-
-# Create AI2025 environment
-/Volumes/MyDrive/AILab-Mac/AI_Environment/Miniconda/bin/conda create -n AI2025 python=3.11 -y
-
-# Activate and install packages
-source /Volumes/MyDrive/AILab-Mac/AI_Environment/Miniconda/bin/activate
-conda activate AI2025
-pip install psutil colorama requests numpy pandas jupyter jupyterlab
-conda deactivate
-```
-
-### **Step 3: Clone AILab-Mac to External Drive**
-
-```bash
-cd /Volumes/MyDrive
+# Clone AILab-Mac
 git clone <repository-url> AILab-Mac
 cd AILab-Mac
 
 # Make scripts executable
 chmod +x run_ai_env.sh setup_python_env.sh
+```
+
+### **Step 2: Install UV (if not already installed)**
+
+```bash
+# Install UV globally (only needs to be done once per Mac)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Verify installation
+uv --version
+```
+
+### **Step 3: Create Virtual Environment on External Drive**
+
+```bash
+cd /Volumes/MyDrive/AILab-Mac
+
+# Create UV virtual environment
+uv venv --python 3.11
+
+# Install dependencies
+uv pip install -e .
 ```
 
 ### **Step 4: Launch from External Drive**
@@ -188,10 +177,11 @@ cd /Volumes/MyDrive/AILab-Mac
 
 **Benefits of External Drive Setup:**
 - ✅ Fully portable - move between different Macs
-- ✅ No system-wide installation needed
+- ✅ Fast setup with UV (minutes instead of hours)
 - ✅ Automatic detection via relative paths
 - ✅ Easy backup - just copy the entire folder
 - ✅ Consistent environment across machines
+- ✅ No large conda installation needed
 
 ---
 
@@ -207,12 +197,13 @@ The system provides a Python-based interactive menu (`activate_ai_env.py`) that 
 - **Native macOS Terminal integration** - Works with Terminal.app and iTerm2
 
 ### **2. Environment Management**
-Manages conda environments and Python installations:
+Manages UV virtual environments and Python installations:
 
-- **Automatic conda detection** - Finds Miniconda in multiple locations (portable, ~/miniconda3, /opt/miniconda3)
-- **AI2025 environment activation** - Pre-configured Python environment with AI packages
+- **Automatic UV detection** - Uses UV for fast Python environment management
+- **Virtual environment activation** - Pre-configured Python environment with AI packages
 - **PATH management** - Safe PATH manipulation with backup/restore capabilities
 - **Environment validation** - Comprehensive checks for packages and dependencies
+- **Fast dependency installation** - UV provides significantly faster package installation than conda
 
 ### **3. AI Model Management (Ollama)**
 Complete integration with Ollama for local AI model hosting:
@@ -244,8 +235,8 @@ Background process tracking and control:
 Comprehensive validation system with 9 different tests:
 
 - **Directory structure** - Verifies AI Environment layout
-- **Conda installation** - Checks conda executable and version
-- **AI2025 environment** - Validates Python environment
+- **UV installation** - Checks UV executable and version
+- **Virtual environment** - Validates Python environment
 - **Python packages** - Tests psutil, colorama, requests, numpy, pandas
 - **Ollama server** - Optional AI server availability check
 - **System integration** - PATH, environment variables, macOS commands
@@ -306,16 +297,15 @@ AILab-Mac/
 ### **Path Detection**
 - Automatically finds Ollama at `/Applications/Ollama.app/Contents/MacOS/ollama`
 - Detects VS Code at `/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code`
-- Searches for Miniconda in multiple locations:
-  - `~/Developer/AILab-Mac/AI_Environment/Miniconda` (portable)
-  - `~/miniconda3` (default user installation)
-  - `/opt/miniconda3` (system-wide installation)
-  - External drives: `/Volumes/*/AILab-Mac/AI_Environment/Miniconda`
+- Searches for UV virtual environment:
+  - `~/Developer/AILab-Mac/.venv` (standard location)
+  - External drives: `/Volumes/*/AILab-Mac/.venv`
+- Detects UV installation in system PATH
 
 ### **Terminal Integration**
 - Launches new Terminal.app windows with custom profiles
-- Pre-activates AI2025 environment in launched terminals
-- Custom prompt: `[AI2025-Terminal] directory $`
+- Pre-activates UV virtual environment in launched terminals
+- Custom prompt: `[AILab-Terminal] directory $`
 - Return-to-menu command available from spawned terminals
 
 ### **Application Support**
@@ -337,9 +327,9 @@ cd ~/Developer/AILab-Mac
 
 ### **Main Menu Options**
 
-1. **Full Activation** - Activates conda environment, starts Ollama, optionally loads AI model
-2. **Restore Original PATH** - Deactivates conda environment, restores system PATH
-3. **Activate Conda Environment** - Activates AI2025 environment only
+1. **Full Activation** - Activates UV virtual environment, starts Ollama, optionally loads AI model
+2. **Restore Original PATH** - Deactivates virtual environment, restores system PATH
+3. **Activate Virtual Environment** - Activates UV environment only
 4. **Test All Components** - Runs comprehensive 9-test validation suite
 5. **Setup Flask** - Installs Flask for web development
 6. **Setup Ollama Server** - Starts Ollama AI model server
@@ -363,23 +353,26 @@ cd ~/Developer/AILab-Mac
 chmod +x run_ai_env.sh setup_python_env.sh
 ```
 
-**"Miniconda not found" errors:**
+**"UV not found" errors:**
 ```bash
-# Verify Miniconda installation
-which conda
+# Verify UV installation
+which uv
 
-# If not found, install Miniconda (see installation section above)
+# If not found, install UV
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# For portable installation:
-ls ~/Developer/AILab-Mac/AI_Environment/Miniconda/bin/conda
+# Or via Homebrew
+brew install uv
 ```
 
-**"Conda environment AI2025 not found":**
+**"Virtual environment not found":**
 ```bash
-# Create the environment
-conda create -n AI2025 python=3.11 -y
-conda activate AI2025
-pip install psutil colorama requests numpy pandas jupyter jupyterlab
+# Create the virtual environment
+cd ~/Developer/AILab-Mac
+uv venv --python 3.11
+
+# Install dependencies
+uv pip install -e .
 ```
 
 **"Ollama not found" errors:**
@@ -416,11 +409,15 @@ ls /Volumes/YourDrive/AILab-Mac/AI_Environment/
 
 **Python packages missing:**
 ```bash
-# Activate AI2025 environment
-conda activate AI2025
+# Activate virtual environment
+cd ~/Developer/AILab-Mac
+source .venv/bin/activate
 
 # Install missing packages
-pip install psutil colorama requests numpy pandas jupyter jupyterlab
+uv pip install psutil colorama requests numpy pandas jupyter jupyterlab
+
+# Or reinstall all dependencies
+uv pip install -e .
 
 # Verify installation
 python -c "import psutil, colorama, requests, numpy, pandas"
@@ -428,10 +425,7 @@ python -c "import psutil, colorama, requests, numpy, pandas"
 
 ### **Apple Silicon vs Intel Macs**
 
-The system works on both Apple Silicon (M1/M2/M3) and Intel Macs. When installing Miniconda, make sure to download the correct installer:
-
-- **Apple Silicon**: `Miniconda3-latest-MacOSX-arm64.sh`
-- **Intel**: `Miniconda3-latest-MacOSX-x86_64.sh`
+The system works on both Apple Silicon (M1/M2/M3) and Intel Macs. UV automatically detects your architecture and downloads the appropriate Python version and packages.
 
 Ollama and VS Code have universal binaries that work on both architectures.
 
@@ -465,9 +459,12 @@ chmod +x run_ai_env.sh setup_python_env.sh
 ### **Update Python Packages**
 
 ```bash
-conda activate AI2025
-pip install --upgrade psutil colorama requests numpy pandas jupyter jupyterlab
-conda deactivate
+cd ~/Developer/AILab-Mac
+source .venv/bin/activate
+uv pip install --upgrade psutil colorama requests numpy pandas jupyter jupyterlab
+# Or update all dependencies
+uv pip install -e . --upgrade
+deactivate
 ```
 
 ### **Update Ollama Models**
@@ -520,9 +517,9 @@ This makes it ideal for:
 After cloning from GitHub, users must:
 
 - [ ] Make shell scripts executable: `chmod +x *.sh`
-- [ ] Install Miniconda (portable or system-wide)
-- [ ] Create AI2025 conda environment
-- [ ] Install required Python packages (psutil, colorama, etc.)
+- [ ] Install UV (via curl or Homebrew)
+- [ ] Create UV virtual environment: `uv venv --python 3.11`
+- [ ] Install required Python packages: `uv pip install -e .`
 - [ ] Install Ollama from https://ollama.ai
 - [ ] (Optional) Install VS Code and the `code` command
 - [ ] (Optional) Download AI models via Ollama
@@ -531,7 +528,7 @@ After cloning from GitHub, users must:
 
 ## 🔗 **Resources**
 
-- **Miniconda**: https://docs.conda.io/en/latest/miniconda.html
+- **UV**: https://github.com/astral-sh/uv
 - **Ollama**: https://ollama.ai
 - **VS Code**: https://code.visualstudio.com/
 - **Jupyter**: https://jupyter.org/

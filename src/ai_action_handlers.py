@@ -24,7 +24,7 @@ except ImportError:
         RESET_ALL = ""
 
 from ai_path_manager import PathManager
-from ai_conda_manager import CondaManager
+from ai_uv_manager import UVManager
 from ai_component_setup import ComponentSetup
 from ai_status_display import StatusDisplay
 from ai_component_tester import ComponentTester
@@ -35,9 +35,9 @@ from ai_process_manager import BackgroundProcessManager
 class ActionHandlers:
     """Handles all menu actions for AI Environment"""
 
-    def __init__(self, ai_env_path, conda_path, ollama_path=None):
+    def __init__(self, ai_env_path, venv_path, ollama_path=None):
         self.ai_env_path = Path(ai_env_path)
-        self.conda_path = Path(conda_path)
+        self.venv_path = Path(venv_path)
         # Use provided ollama_path or default to portable location
         if ollama_path is None:
             ollama_path = Path(ai_env_path) / "Ollama" / "ollama.exe"
@@ -78,13 +78,13 @@ class ActionHandlers:
             if not self.check_prerequisites():
                 return False
                 
-            # Step 1: Activate conda environment first
-            self.print_step(1, "Activating conda environment")
-            conda_manager = CondaManager(self.conda_path)
-            if not conda_manager.activate_environment("AI2025"):
-                self.print_error("Failed to activate conda environment")
+            # Step 1: Activate UV virtual environment first
+            self.print_step(1, "Activating UV virtual environment")
+            uv_manager = UVManager(self.venv_path)
+            if not uv_manager.activate_environment():
+                self.print_error("Failed to activate UV virtual environment")
                 return False
-            self.print_success("Conda environment activated")
+            self.print_success("UV virtual environment activated")
             
             # Step 2: Clean only duplicate AI Environment paths (keep conda paths)
             self.print_step(2, "Cleaning duplicate paths")
@@ -174,15 +174,15 @@ class ActionHandlers:
         path_manager = PathManager(self.ai_env_path)
         return path_manager.restore_original_path()
         
-    def action_activate_conda(self):
-        """Activate conda environment only"""
-        print(f"\n{Fore.BLUE}🐍 Activating Conda Environment...{Style.RESET_ALL}")
-        conda_manager = CondaManager(self.conda_path)
-        return conda_manager.activate_environment("AI2025")
+    def action_activate_venv(self):
+        """Activate UV virtual environment only"""
+        print(f"\n{Fore.BLUE}🐍 Activating UV Virtual Environment...{Style.RESET_ALL}")
+        uv_manager = UVManager(self.venv_path)
+        return uv_manager.activate_environment()
         
     def action_test_components(self):
         """Test all components"""
-        tester = ComponentTester(self.ai_env_path, self.conda_path)
+        tester = ComponentTester(self.ai_env_path, self.venv_path)
         return tester.run_all_tests()
         
     def action_setup_flask(self):
@@ -512,9 +512,9 @@ class ActionHandlers:
         """Handle Jupyter Lab submenu with full server management"""
         from ai_jupyter_manager import JupyterLabManager
         from ai_menu_system import MenuSystem
-        
+
         # Create Jupyter Lab manager
-        jupyter_manager = JupyterLabManager(self.ai_env_path, self.conda_path)
+        jupyter_manager = JupyterLabManager(self.ai_env_path, self.venv_path)
         menu = MenuSystem("3.0.28", "2025-08-12")
         
         while True:
@@ -563,9 +563,9 @@ def main():
         print("AI_Environment not found on any drive!")
         return
 
-    conda_path = ai_env_path / "Miniconda"
+    venv_path = ai_env_path / ".venv"
 
-    handlers = ActionHandlers(ai_env_path, conda_path)
+    handlers = ActionHandlers(ai_env_path, venv_path)
 
     # Test status action
     handlers.action_show_status()
